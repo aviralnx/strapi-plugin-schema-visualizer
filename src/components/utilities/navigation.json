@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_utilities_navigations",
+  "info": {
+    "displayName": "Navigation"
+  },
+  "options": {},
+  "attributes": {
+    "Editor": {
+      "type": "string"
+    }
+  }
+}
