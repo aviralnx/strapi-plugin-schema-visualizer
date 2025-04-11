@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "landing_pages",
+  "info": {
+    "singularName": "landing-page",
+    "pluralName": "landing-pages",
+    "displayName": "Landing page"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "headers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::header.header"
+    }
+  }
+}
