@@ -39,13 +39,10 @@ export const useDigramStore = create(
         });
       },
       toggleOption: (optionName, optionValue = null) => {
-        console.debug('🚀 ~ optionValue:', optionValue)
-        console.debug('🚀 ~ optionName:', optionName)
         let newOptions = {
           ...get().options,
           [optionName]: optionValue || !get().options[optionName],
         };
-        console.debug('🚀 ~ newOptions:', newOptions)
         set({
           options: newOptions,
         });

@@ -14,6 +14,12 @@ declare module '../components/CustomNode.js';
 declare module '../components/OptionsBar.js';
 declare module '../components/ExportModal.js';
 
+// Add CSS module declarations
+declare module '*.css' {
+  const content: { [className: string]: string };
+  export default content;
+}
+
 // Add custom theme type definition to fix theme property access errors
 import 'styled-components';
 

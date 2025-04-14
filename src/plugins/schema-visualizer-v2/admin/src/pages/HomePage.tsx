@@ -1,6 +1,6 @@
 import "reactflow/dist/style.css";
 import "./styles.css";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useCallback } from "react";
 import { useFetchClient } from '@strapi/strapi/admin';
 // import { HeaderLayout } from "@strapi/admin/strapi-admin";
 import { Button } from "@strapi/design-system";
@@ -27,7 +27,8 @@ const useEffectSkipInitial = (func: () => void, deps: React.DependencyList) => {
   }, deps);
 };
 
-const HomePage = () => {
+// Memoized HomePage component to prevent unnecessary re-renders
+const HomePage = React.memo(() => {
   const theme = useTheme();
   const { get } = useFetchClient();
   const {
@@ -46,7 +47,10 @@ const HomePage = () => {
     setShowModal,
   } = useDigramStore();
 
+  // Memoized node types definition
   const nodeTypes = useMemo(() => ({ special: CustomNode }), []);
+
+  // Memoized edge types definition
   const edgeTypes = useMemo(
     () => ({
       smartbezier: SmartBezierEdge,
@@ -56,19 +60,20 @@ const HomePage = () => {
     []
   );
 
-  const regenrate = async () => {
+  // Memoized regenerate function to prevent unnecessary recreations
+  const regenrate = useCallback(async () => {
     const { data } = await get(`/schema-visualizer-v2/get-types`);
     setData(data);
     drawDiagram();
-  };
+  }, [get, setData, drawDiagram]);
 
   useEffectSkipInitial(() => {
     regenrate();
-  }, [options.showAdminTypes, options.showPluginTypes]);
+  }, [options.showAdminTypes, options.showPluginTypes, regenrate]);
 
   useEffect(() => {
     redrawEdges();
-  }, [options.edgeType, options.showEdges]);
+  }, [options.edgeType, options.showEdges, redrawEdges]);
 
   useEffect(() => {
     redrawNodes();
@@ -77,9 +82,60 @@ const HomePage = () => {
     options.showIcons,
     options.showRelationsOnly,
     options.showDefaultFields,
+    redrawNodes,
   ]);
 
+  // Memoize the toggle function for better performance
+  const handleScrollToggle = useCallback(() => {
+    toggleOption("scrollMode");
+  }, [toggleOption]);
+
+  // Memoize the export button click handler
+  const handleExportClick = useCallback(() => {
+    setShowModal(true);
+  }, [setShowModal]);
+
   const ref = useRef(null);
+
+  // Memoize background style to avoid recreating on each render
+  const backgroundStyle = useMemo(() => getBackgroundColor(options.backgroundPattern, theme),
+    [options.backgroundPattern, theme]);
+
+  // Memoize the ReactFlow props to prevent re-renders
+  const flowProps = useMemo(() => ({
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    nodeTypes,
+    edgeTypes,
+    fitView: true,
+    minZoom: 0,
+    preventScrolling: !options.scrollMode,
+    snapGrid: [20, 20] as [number, number],
+    snapToGrid: options.snapToGrid,
+    fitViewOptions: {
+      maxZoom: 1,
+    },
+  }), [
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
+    onConnect,
+    nodeTypes,
+    edgeTypes,
+    options.scrollMode,
+    options.snapToGrid
+  ]);
+
+  // Memoize the control button styles
+  const controlsStyle = useMemo(() => ({
+    "--button-background": theme.colors?.neutral150,
+    "--button-foreground": theme.colors?.neutral1000,
+    "--button-hover": theme.colors?.buttonPrimary500,
+  } as React.CSSProperties), [theme.colors]);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -88,7 +144,7 @@ const HomePage = () => {
         primaryAction={
           <Button
             startIcon={<Download />}
-            onClick={() => setShowModal(true)}
+            onClick={handleExportClick}
           >
             Export Diagram
           </Button>
@@ -99,23 +155,40 @@ const HomePage = () => {
             startIcon={<ArrowClockwise />}
             onClick={regenrate}
           >
-            Regenrate
+            Regenerate
           </Button>
         }
       /> */}
+      {/* TODO remove styling when this issue is fixed: https://github.com/strapi/design-system/issues/1853 */}
+			<style>
+				{`
+					.cte-plugin-controls button {
+            background-color: var(--button-background);
+            border: none;
+          }
+
+          .cte-plugin-controls button:hover {
+            background-color: var(--button-hover);
+          }
+
+          .cte-plugin-controls button svg {
+            fill: var(--button-foreground);
+          }
+				`}
+			</style>
       <Button
-            startIcon={<Download />}
-            onClick={() => setShowModal(true)}
-          >
-            Export Diagram
-          </Button>
+        startIcon={<Download />}
+        onClick={handleExportClick}
+      >
+        Export Diagram
+      </Button>
       <Button
-            variant="secondary"
-            startIcon={<ArrowClockwise />}
-            onClick={regenrate}
-          >
-            Regenrate
-          </Button>
+        variant="secondary"
+        startIcon={<ArrowClockwise />}
+        onClick={regenrate}
+      >
+        Regenerate
+      </Button>
       <OptionsBar />
       <div
         ref={ref}
@@ -125,52 +198,37 @@ const HomePage = () => {
         }}
       >
         <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
-          fitView
-          minZoom={0}
-          preventScrolling={!options.scrollMode}
-          snapGrid={[20, 20]}
-          snapToGrid={options.snapToGrid}
-          fitViewOptions={{
-            maxZoom: 1,
-          }}
+          {...flowProps}
         >
           <Controls
             position="top-left"
             showInteractive={false}
             className="cte-plugin-controls"
-            style={{
-              "--button-background": theme.colors?.neutral150,
-              "--button-foreground": theme.colors?.neutral1000,
-              "--button-hover": theme.colors?.buttonPrimary500,
-            } as React.CSSProperties}
+            style={controlsStyle}
           >
             <ControlButton
-              onClick={() => toggleOption("scrollMode")}
+              onClick={handleScrollToggle}
               title="Toggle Mouse Wheel Behavior (Zoom/Scroll)"
             >
               {
                 options.scrollMode
-                ? <Drag fill="neutral1000" />
-                : <Search fill="neutral1000" />
+                ? <Drag fill="#000000" />
+                : <Search fill="#000000" />
               }
             </ControlButton>
           </Controls>
           <Background
             variant={options.backgroundPattern}
-            color={getBackgroundColor(options.backgroundPattern, theme)}
+            color={backgroundStyle}
           />
         </ReactFlow>
         {showModal && <ExportModal imageRef={ref} />}
       </div>
     </div>
   );
-};
+});
+
+// Add display name for better debugging
+HomePage.displayName = 'HomePage';
 
 export { HomePage };

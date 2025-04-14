@@ -10,11 +10,9 @@ export function createNodes(contentTypes, options) {
           id: node.key,
           position: {
             x: (index % CARDS_PER_ROW) * 320,
-            y:
-              ((index - (index % CARDS_PER_ROW)) / CARDS_PER_ROW) * 560 +
-              (index % 2) * 48,
+            y: ((index - (index % CARDS_PER_ROW)) / CARDS_PER_ROW) * 560 + (index % 2) * 48,
           },
-          type: "special",
+          type: 'special',
 
           data: {
             ...node,
@@ -38,12 +36,12 @@ export function createEdegs(contentTypes, options) {
 
   contentTypes.map((contentType) => {
     Object.keys(contentType.attributes).map((attr) => {
-      if (contentType.attributes[attr].type == "relation") {
+      if (contentType.attributes[attr].type == 'relation') {
         // only add edge if target node is not excluded (not hidden)
         if (
-          contentTypes.some(
-            (node) => node.key === contentType.attributes[attr].target
-          )
+          contentTypes.some((node) => node.key === contentType.attributes[attr].target) &&
+          // Filter out self-connecting edges (nodes connected to themselves)
+          contentType.key !== contentType.attributes[attr].target
         ) {
           newEdges = [
             ...newEdges,
@@ -64,7 +62,10 @@ export function createEdegs(contentTypes, options) {
 }
 
 export function updateEdges(edges, options) {
-  return edges.map((edge) => ({
+  // Filter out edges where source and target are the same (self-connections)
+  const filteredEdges = edges.filter((edge) => edge.source !== edge.target);
+
+  return filteredEdges.map((edge) => ({
     ...edge,
     type: options.edgeType,
     hidden: !options.showEdges,
