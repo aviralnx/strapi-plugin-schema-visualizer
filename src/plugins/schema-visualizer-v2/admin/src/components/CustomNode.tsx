@@ -13,13 +13,43 @@ import {
   Typography,
 } from "@strapi/design-system";
 import { useTheme } from "styled-components";
-import { Handle } from "reactflow";
+import { Handle, NodeProps, Position } from "reactflow";
 import { RelationIcon } from "./RelationIcon";
 import { getIcon } from "../utils/themeUtils";
 import "./CustomNode.css";
 
+interface Attribute {
+  type: string;
+  relation?: string;
+  [key: string]: any;
+}
+
+interface CustomNodeData {
+  key: string;
+  info: {
+    displayName: string;
+    [key: string]: any;
+  };
+  attributes: {
+    [key: string]: Attribute;
+  };
+  options: {
+    showRelationsOnly: boolean;
+    showDefaultFields: boolean;
+    showTypes: boolean;
+    showIcons: boolean;
+    [key: string]: any;
+  };
+  [key: string]: any;
+}
+
+// Extended NodeProps to include our custom data
+interface CustomNodeProps extends NodeProps {
+  data: CustomNodeData;
+}
+
 // Custom comparison function to prevent unnecessary re-renders
-const areEqual = (prevProps, nextProps) => {
+const areEqual = (prevProps: CustomNodeProps, nextProps: CustomNodeProps): boolean => {
   // Only re-render if options or attributes have changed
   return (
     prevProps.data.options === nextProps.data.options &&
@@ -28,7 +58,10 @@ const areEqual = (prevProps, nextProps) => {
 };
 
 // Memoized function to filter attributes based on options
-const filterAttributes = (attributes, options) => {
+const filterAttributes = (
+  attributes: { [key: string]: Attribute },
+  options: { showRelationsOnly: boolean; showDefaultFields: boolean }
+): [string, Attribute][] => {
   let result = Object.entries(attributes);
 
   if (options.showRelationsOnly) {
@@ -45,7 +78,7 @@ const filterAttributes = (attributes, options) => {
   return result;
 };
 
-const CustomNode = React.memo(({ data }) => {
+const CustomNode = React.memo<CustomNodeProps>(({ data }) => {
   const theme = useTheme();
 
   // Memoize the filtered attributes to avoid recalculation on every render
@@ -131,7 +164,7 @@ const CustomNode = React.memo(({ data }) => {
         {data.key}
         <Handle
           type="target"
-          position="top"
+          position={Position.Top}
           style={handleStyle}
         />
       </Typography>
@@ -158,14 +191,14 @@ const CustomNode = React.memo(({ data }) => {
                 {attr[1].type === "relation" && (
                   <>
                     <Tooltip description={attr[1].relation}>
-                      <RelationIcon theme={theme}>
-                        {getIcon(attr[1].relation)}
+                      <RelationIcon theme={theme as { colors: { [key: string]: string; neutral0: string; buttonPrimary500: string; } }}>
+                        {getIcon(attr[1].relation ?? '')}
                       </RelationIcon>
                     </Tooltip>
                     <Handle
                       type="source"
                       id={attr[0]}
-                      position="right"
+                      position={Position.Right}
                       className="cte-plugin-handle"
                     />
                   </>
@@ -177,7 +210,6 @@ const CustomNode = React.memo(({ data }) => {
       })}
     </Box>
     </>
-
   );
 }, areEqual);
 

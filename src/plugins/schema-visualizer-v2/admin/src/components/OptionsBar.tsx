@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Checkbox,
   SingleSelect,
@@ -5,7 +6,7 @@ import {
 } from "@strapi/design-system";
 import { useDigramStore } from "../store";
 
-export function OptionsBar() {
+export function OptionsBar(): React.ReactElement {
   const { options, toggleOption } = useDigramStore();
   return (
     <div

@@ -1,4 +1,5 @@
 import { darkTheme } from '@strapi/design-system';
+import React from 'react';
 
 // In Strapi v5, field icons are now in the symbols export
 import {
@@ -24,20 +25,24 @@ import {
   ManyWays,
 } from '@strapi/icons';
 
-export function getBackgroundColor(variant, theme) {
+type AttributeType = string;
+
+export function getBackgroundColor(variant: string, theme: any): string {
   switch (variant) {
     case 'cross':
       return theme.colors.neutral200;
     case 'dots':
-      return darkTheme.colors.neutral300;
+      return theme.colors.neutral300;
     case 'lines':
       return theme.colors.neutral150;
     case 'none':
       return theme.colors.neutral100;
+    default:
+      return '#ffffff';
   }
 }
 
-export function getIcon(attrType) {
+export function getIcon(attrType: AttributeType): React.ReactNode {
   switch (attrType.toLowerCase()) {
     case 'string':
     case 'text':
@@ -86,5 +91,7 @@ export function getIcon(attrType) {
     // Not sure
     case 'morphtomany':
       return <ManyWays />;
+    default:
+      return null;
   }
 }

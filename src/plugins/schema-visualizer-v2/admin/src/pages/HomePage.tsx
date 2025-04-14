@@ -11,7 +11,7 @@ import {
   SmartStepEdge,
   SmartStraightEdge,
 } from "@tisoap/react-flow-smart-edge";
-import { Background, ControlButton, Controls, ReactFlow } from "reactflow";
+import { Background, ControlButton, Controls, ReactFlow, BackgroundVariant } from "reactflow";
 import { getBackgroundColor } from "../utils/themeUtils";
 import { useDigramStore } from "../store";
 import { CustomNode } from "../components/CustomNode";
@@ -95,7 +95,7 @@ const HomePage = React.memo(() => {
     setShowModal(true);
   }, [setShowModal]);
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   // Memoize background style to avoid recreating on each render
   const backgroundStyle = useMemo(() => getBackgroundColor(options.backgroundPattern, theme),
@@ -205,11 +205,11 @@ const HomePage = React.memo(() => {
             </ControlButton>
           </Controls>
           <Background
-            variant={options.backgroundPattern}
+            variant={options.backgroundPattern as BackgroundVariant}
             color={backgroundStyle}
           />
         </ReactFlow>
-        {showModal && <ExportModal imageRef={ref} />}
+        {showModal && <ExportModal imageRef={ref as React.RefObject<HTMLDivElement>} />}
       </div>
     </div>
   );

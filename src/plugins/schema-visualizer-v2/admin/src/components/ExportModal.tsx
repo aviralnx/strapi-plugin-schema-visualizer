@@ -1,3 +1,4 @@
+import React, { useCallback, useState, RefObject } from "react";
 import {
   Modal,
   Button,
@@ -5,21 +6,25 @@ import {
   SingleSelect,
   SingleSelectOption,
   NumberInput,
+  Field,
 } from "@strapi/design-system";
 import { toJpeg, toPng, toSvg } from "html-to-image";
-import { useCallback, useState } from "react";
 import { useDigramStore } from "../store";
 import { useTheme } from "styled-components";
 
-export function ExportModal({ imageRef }) {
+interface ExportModalProps {
+  imageRef: RefObject<HTMLDivElement>;
+}
+
+export function ExportModal({ imageRef }: ExportModalProps): React.ReactElement {
   const theme = useTheme();
 
   const { setShowModal } = useDigramStore();
 
-  const [format, setFormat] = useState("png");
-  const [quality, setQuality] = useState(0.95);
+  const [format, setFormat] = useState<string>("png");
+  const [quality, setQuality] = useState<number>(0.95);
 
-  function downloadImage(dataUrl, fileExtension) {
+  function downloadImage(dataUrl: string, fileExtension: string): void {
     const link = document.createElement("a");
     link.download = `strapi-diagram-${new Date()
       .toISOString()
@@ -34,7 +39,7 @@ export function ExportModal({ imageRef }) {
       return;
     }
 
-    const filter = (node) => {
+    const filter = (node: HTMLElement): boolean => {
       const exclusionClasses = ["cte-plugin-controls"];
       return !exclusionClasses.some((classname) =>
         node.classList?.contains(classname)
@@ -46,7 +51,7 @@ export function ExportModal({ imageRef }) {
         cacheBust: true,
         filter: filter,
         style: {
-          background: theme.colors.neutral100,
+          background: theme.colors?.neutral100,
         },
       })
         .then((dataUrl) => {
@@ -60,7 +65,7 @@ export function ExportModal({ imageRef }) {
         cacheBust: true,
         filter: filter,
         style: {
-          background: theme.colors.neutral100,
+          background: theme.colors?.neutral100,
         },
       })
         .then((dataUrl) => {
@@ -75,7 +80,7 @@ export function ExportModal({ imageRef }) {
         filter: filter,
         quality: quality,
         style: {
-          background: theme.colors.neutral100,
+          background: theme.colors?.neutral100,
         },
       })
         .then((dataUrl) => {
@@ -85,10 +90,10 @@ export function ExportModal({ imageRef }) {
           console.log(err);
         });
     }
-  }, [imageRef, quality, format]);
+  }, [imageRef, quality, format, theme]);
 
   return (
-    <Modal.Root onClose={() => setShowModal(false)}>
+    <Modal.Root>
       <Modal.Content>
         <Modal.Header>
           <Modal.Title>
@@ -96,27 +101,37 @@ export function ExportModal({ imageRef }) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <SingleSelect
-            label="Format"
-            onClear={() => {
-              setFormat(undefined);
-            }}
-            value={format}
-            onChange={setFormat}
-          >
-            <SingleSelectOption value="svg">SVG</SingleSelectOption>
-            <SingleSelectOption value="png">PNG</SingleSelectOption>
-            <SingleSelectOption value="jpeg">JPEG</SingleSelectOption>
-          </SingleSelect>
+          <Field.Label>Format</Field.Label>
+          <Field.Input>
+            <SingleSelect
+              onClear={() => {
+                setFormat("");
+              }}
+              value={format}
+              onChange={(value) => setFormat(value as string)}
+            >
+              <SingleSelectOption value="svg">SVG</SingleSelectOption>
+              <SingleSelectOption value="png">PNG</SingleSelectOption>
+              <SingleSelectOption value="jpeg">JPEG</SingleSelectOption>
+            </SingleSelect>
+          </Field.Input>
           <span style={{ height: "16px", display: "block" }} />
           {format == "jpeg" && (
-            <NumberInput
-              label="Quality"
-              name="quality"
-              hint="0.0 - 1.0"
-              onValueChange={(value) => setQuality(value)}
-              value={quality}
-            />
+            <div>
+              <Field.Label>Quality</Field.Label>
+              <Typography variant="pi" textColor="neutral600">0.0 - 1.0</Typography>
+              <Field.Input>
+                <NumberInput
+                  name="quality"
+                  onValueChange={(value) => {
+                    if (value !== undefined) {
+                      setQuality(value);
+                    }
+                  }}
+                  value={quality}
+                />
+              </Field.Input>
+            </div>
           )}
         </Modal.Body>
         <Modal.Footer>
