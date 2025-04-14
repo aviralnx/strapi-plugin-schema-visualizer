@@ -22,12 +22,9 @@
   top: 6px;
   bottom: 0;
   margin: auto;
-  visibility: visible; /* Changed from hidden to visible */
+  visibility: hidden;
   position: absolute;
   padding: 0;
-  width: 10px;
-  height: 10px;
-  border-width: 2px;
 }
 
 .cte-plugin-field {
@@ -35,11 +32,4 @@
   align-items: center;
   margin-bottom: 6px;
   position: relative;
-}
-
-/* Additional styles for relation fields */
-.cte-plugin-field:has([class*="relation"]) {
-  background-color: rgba(0, 126, 255, 0.05);
-  border-radius: 4px;
-  padding: 4px;
 }

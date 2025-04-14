@@ -2,6 +2,7 @@ import "reactflow/dist/style.css";
 import "./styles.css";
 import React, { useEffect, useMemo, useRef } from "react";
 import { useFetchClient } from '@strapi/strapi/admin';
+// import { HeaderLayout } from "@strapi/admin/strapi-admin";
 import { Button } from "@strapi/design-system";
 import { Search, Drag, Download, ArrowClockwise } from "@strapi/icons";
 import { useTheme } from "styled-components";
@@ -56,21 +57,9 @@ const HomePage = () => {
   );
 
   const regenrate = async () => {
-    try {
-      const { data } = await get(`/schema-visualizer-v2/get-types`);
-      console.log("Content Types Data:", data);
-      setData(data);
-      drawDiagram();
-      
-      // Debug: Log edges after diagram is drawn
-      setTimeout(() => {
-        console.log("Current Edges:", edges);
-        console.log("Current Nodes:", nodes);
-        console.log("Current Options:", options);
-      }, 500);
-    } catch (error) {
-      console.error("Error fetching content types:", error);
-    }
+    const { data } = await get(`/schema-visualizer-v2/get-types`);
+    setData(data);
+    drawDiagram();
   };
 
   useEffectSkipInitial(() => {
@@ -79,8 +68,6 @@ const HomePage = () => {
 
   useEffect(() => {
     redrawEdges();
-    // Debug: Log edges after redrawing
-    console.log("Edges after redraw:", edges);
   }, [options.edgeType, options.showEdges]);
 
   useEffect(() => {
@@ -96,19 +83,45 @@ const HomePage = () => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <OptionsBar />
+      {/* <HeaderLayout
+        title="Content-Type Explorer"
+        primaryAction={
+          <Button
+            startIcon={<Download />}
+            onClick={() => setShowModal(true)}
+          >
+            Export Diagram
+          </Button>
+        }
+        secondaryAction={
+          <Button
+            variant="secondary"
+            startIcon={<ArrowClockwise />}
+            onClick={regenrate}
+          >
+            Regenrate
+          </Button>
+        }
+      /> */}
+      <Button
+            startIcon={<Download />}
+            onClick={() => setShowModal(true)}
+          >
+            Export Diagram
+          </Button>
       <Button
             variant="secondary"
             startIcon={<ArrowClockwise />}
             onClick={regenrate}
-      >
-            Regenerate
-      </Button>
+          >
+            Regenrate
+          </Button>
+      <OptionsBar />
       <div
         ref={ref}
         style={{
           height: "100%",
-          borderTop: `1px solid ${theme.colors?.neutral150 ?? "#ccc"}`,
+          borderTop: `1px solid ${theme.colors?.neutral150}`,
         }}
       >
         <ReactFlow
@@ -132,13 +145,11 @@ const HomePage = () => {
             position="top-left"
             showInteractive={false}
             className="cte-plugin-controls"
-            style={
-              {
-                "--button-background": theme.colors?.neutral150 ?? "#ccc",
-                "--button-foreground": theme.colors?.neutral1000 ?? "#000",
-                "--button-hover": theme.colors?.buttonPrimary500 ?? "#007bff",
-              } as React.CSSProperties
-            }
+            style={{
+              "--button-background": theme.colors?.neutral150,
+              "--button-foreground": theme.colors?.neutral1000,
+              "--button-hover": theme.colors?.buttonPrimary500,
+            } as React.CSSProperties}
           >
             <ControlButton
               onClick={() => toggleOption("scrollMode")}

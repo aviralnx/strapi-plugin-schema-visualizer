@@ -3,7 +3,6 @@ import {
   SingleSelect,
   SingleSelectOption,
 } from "@strapi/design-system";
-import React from "react";
 import { useDigramStore } from "../store";
 
 export function OptionsBar() {
@@ -20,7 +19,7 @@ export function OptionsBar() {
     >
       <Checkbox
         name="show-type-names"
-        onValueChange={() => {
+        onCheckedChange={() => {
           toggleOption("showTypes");
         }}
         value={options.showTypes}
@@ -29,49 +28,49 @@ export function OptionsBar() {
       </Checkbox>
       <Checkbox
         name="show-icons"
-        onValueChange={() => toggleOption("showIcons")}
+        onCheckedChange={() => toggleOption("showIcons")}
         value={options.showIcons}
       >
         Data Type Icons
       </Checkbox>
       <Checkbox
         name="show-default-fields"
-        onValueChange={() => toggleOption("showDefaultFields")}
+        onCheckedChange={() => toggleOption("showDefaultFields")}
         value={options.showDefaultFields}
       >
         Default Fields
       </Checkbox>
       <Checkbox
         name="show-relations-only"
-        onValueChange={() => toggleOption("showRelationsOnly")}
+        onCheckedChange={() => toggleOption("showRelationsOnly")}
         value={options.showRelationsOnly}
       >
         Relational Fields Only
       </Checkbox>
       <Checkbox
         name="show-admin-types"
-        onValueChange={() => toggleOption("showAdminTypes")}
+        onCheckedChange={() => toggleOption("showAdminTypes")}
         value={options.showAdminTypes}
       >
         admin:: Types
       </Checkbox>
       <Checkbox
         name="show-plugin-types"
-        onValueChange={() => toggleOption("showPluginTypes")}
+        onCheckedChange={() => toggleOption("showPluginTypes")}
         value={options.showPluginTypes}
       >
         plugin:: Types
       </Checkbox>
       <Checkbox
         name="show-edges"
-        onValueChange={() => toggleOption("showEdges")}
+        onCheckedChange={() => toggleOption("showEdges")}
         value={options.showEdges}
       >
         Edges
       </Checkbox>
       <Checkbox
         name="snap-to-grid"
-        onValueChange={() => toggleOption("snapToGrid")}
+        onCheckedChange={() => toggleOption("snapToGrid")}
         value={options.snapToGrid}
       >
         Snap To Grid

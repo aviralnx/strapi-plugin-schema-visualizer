@@ -1,3 +1,9 @@
+/**
+ *
+ * PluginIcon
+ *
+ */
+
 import {
   Badge,
   Box,
@@ -6,11 +12,10 @@ import {
   Typography,
 } from "@strapi/design-system";
 import { useTheme } from "styled-components";
-import { Handle, Position } from "reactflow";
+import { Handle } from "reactflow";
 import { RelationIcon } from "./RelationIcon";
-// import { getIcon } from "../utils/themeUtils";
+import { getIcon } from "../utils/themeUtils";
 import "./CustomNode.css";
-import { PuzzlePiece } from "@strapi/icons";
 
 export function CustomNode({ data }) {
   let attributesToShow = Object.entries(data.attributes);
@@ -59,12 +64,10 @@ export function CustomNode({ data }) {
         {data.key}
         <Handle
           type="target"
-          position={Position.Top}
+          position="top"
           style={{
             borderColor: theme.colors.neutral200,
             background: theme.colors.neutral0,
-            width: 12,
-            height: 12,
           }}
         />
       </Typography>
@@ -87,26 +90,19 @@ export function CustomNode({ data }) {
                 </Badge>
               )}
 
+              {data.options.showIcons && getIcon(attr[1].type)}
               {attr[1].type === "relation" && (
                 <>
-                  <Tooltip description={`${attr[1].relation || 'relation'} - ${attr[1].target || 'unknown'}`}>
+                  <Tooltip description={attr[1].relation}>
                     <RelationIcon theme={theme}>
-                      <PuzzlePiece />
+                      {getIcon(attr[1].relation)}
                     </RelationIcon>
                   </Tooltip>
                   <Handle
                     type="source"
                     id={attr[0]}
-                    position={Position.Right}
+                    position="right"
                     className="cte-plugin-handle"
-                    style={{
-                      borderColor: theme.colors.buttonPrimary500,
-                      background: theme.colors.neutral0,
-                      width: 10,
-                      height: 10,
-                      right: -10,
-                      zIndex: 10,
-                    }}
                   />
                 </>
               )}

@@ -1,7 +1,12 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { addEdge, applyNodeChanges, applyEdgeChanges } from 'reactflow';
-import { createEdegs, createNodes, updateEdges, updateNodes } from '../utils/dataUtils';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { addEdge, applyNodeChanges, applyEdgeChanges } from "reactflow";
+import {
+  createEdegs,
+  createNodes,
+  updateEdges,
+  updateNodes,
+} from "../utils/dataUtils";
 
 export const useDigramStore = create(
   persist(
@@ -18,10 +23,10 @@ export const useDigramStore = create(
         showAdminTypes: false,
         showDefaultFields: false,
         showPluginTypes: false,
-        showEdges: true, // Changed from false to true
+        showEdges: true,
         scrollMode: true,
-        edgeType: 'smartbezier',
-        backgroundPattern: 'dots',
+        edgeType: "smartbezier",
+        backgroundPattern: "dots",
       },
       setData: (contentTypesData) => {
         set({
@@ -34,10 +39,13 @@ export const useDigramStore = create(
         });
       },
       toggleOption: (optionName, optionValue = null) => {
+        console.debug('🚀 ~ optionValue:', optionValue)
+        console.debug('🚀 ~ optionName:', optionName)
         let newOptions = {
           ...get().options,
           [optionName]: optionValue || !get().options[optionName],
         };
+        console.debug('🚀 ~ newOptions:', newOptions)
         set({
           options: newOptions,
         });
@@ -61,10 +69,14 @@ export const useDigramStore = create(
         const options = get().options;
         let typesToDraw = get().data;
         if (!options.showAdminTypes) {
-          typesToDraw = typesToDraw.filter((x) => !x.name.startsWith('admin::'));
+          typesToDraw = typesToDraw.filter(
+            (x) => !x.name.startsWith("admin::")
+          );
         }
         if (!options.showPluginTypes) {
-          typesToDraw = typesToDraw.filter((x) => !x.name.startsWith('plugin::'));
+          typesToDraw = typesToDraw.filter(
+            (x) => !x.name.startsWith("plugin::")
+          );
         }
         let newNodes = createNodes(typesToDraw, options);
         let newEdges = createEdegs(typesToDraw, options);
@@ -87,7 +99,7 @@ export const useDigramStore = create(
       },
     }),
     {
-      name: 'strapi-schema-visualizer-v2', // name of the item in the storage (must be unique)
+      name: "strapi-schema-visualizer-v2",
     }
   )
 );
