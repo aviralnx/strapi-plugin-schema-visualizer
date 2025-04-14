@@ -25,7 +25,7 @@ export const useDigramStore = create(
         showPluginTypes: false,
         showEdges: true,
         scrollMode: true,
-        edgeType: "smartbezier",
+        edgeType: "smartstep",
         backgroundPattern: "dots",
       },
       setData: (contentTypesData) => {

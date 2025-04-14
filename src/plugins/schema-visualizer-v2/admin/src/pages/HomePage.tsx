@@ -2,7 +2,7 @@ import "reactflow/dist/style.css";
 import "./styles.css";
 import React, { useEffect, useMemo, useRef, useCallback } from "react";
 import { useFetchClient } from '@strapi/strapi/admin';
-// import { HeaderLayout } from "@strapi/admin/strapi-admin";
+import { Layouts } from "@strapi/admin/strapi-admin";
 import { Button } from "@strapi/design-system";
 import { Search, Drag, Download, ArrowClockwise } from "@strapi/icons";
 import { useTheme } from "styled-components";
@@ -139,8 +139,8 @@ const HomePage = React.memo(() => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      {/* <HeaderLayout
-        title="Content-Type Explorer"
+      <Layouts.Header
+        title="Schema Visualizer"
         primaryAction={
           <Button
             startIcon={<Download />}
@@ -158,7 +158,7 @@ const HomePage = React.memo(() => {
             Regenerate
           </Button>
         }
-      /> */}
+      />
       {/* TODO remove styling when this issue is fixed: https://github.com/strapi/design-system/issues/1853 */}
 			<style>
 				{`
@@ -176,19 +176,6 @@ const HomePage = React.memo(() => {
           }
 				`}
 			</style>
-      <Button
-        startIcon={<Download />}
-        onClick={handleExportClick}
-      >
-        Export Diagram
-      </Button>
-      <Button
-        variant="secondary"
-        startIcon={<ArrowClockwise />}
-        onClick={regenrate}
-      >
-        Regenerate
-      </Button>
       <OptionsBar />
       <div
         ref={ref}

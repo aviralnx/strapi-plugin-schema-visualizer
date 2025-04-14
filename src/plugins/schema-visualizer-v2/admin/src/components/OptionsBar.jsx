@@ -22,56 +22,56 @@ export function OptionsBar() {
         onCheckedChange={() => {
           toggleOption("showTypes");
         }}
-        value={options.showTypes}
+        checked={options.showTypes}
       >
         Data Types
       </Checkbox>
       <Checkbox
         name="show-icons"
         onCheckedChange={() => toggleOption("showIcons")}
-        value={options.showIcons}
+        checked={options.showIcons}
       >
         Data Type Icons
       </Checkbox>
       <Checkbox
         name="show-default-fields"
         onCheckedChange={() => toggleOption("showDefaultFields")}
-        value={options.showDefaultFields}
+        checked={options.showDefaultFields}
       >
         Default Fields
       </Checkbox>
       <Checkbox
         name="show-relations-only"
         onCheckedChange={() => toggleOption("showRelationsOnly")}
-        value={options.showRelationsOnly}
+        checked={options.showRelationsOnly}
       >
         Relational Fields Only
       </Checkbox>
       <Checkbox
         name="show-admin-types"
         onCheckedChange={() => toggleOption("showAdminTypes")}
-        value={options.showAdminTypes}
+        checked={options.showAdminTypes}
       >
         admin:: Types
       </Checkbox>
       <Checkbox
         name="show-plugin-types"
         onCheckedChange={() => toggleOption("showPluginTypes")}
-        value={options.showPluginTypes}
+        checked={options.showPluginTypes}
       >
         plugin:: Types
       </Checkbox>
       <Checkbox
         name="show-edges"
         onCheckedChange={() => toggleOption("showEdges")}
-        value={options.showEdges}
+        checked={options.showEdges}
       >
         Edges
       </Checkbox>
       <Checkbox
         name="snap-to-grid"
         onCheckedChange={() => toggleOption("snapToGrid")}
-        value={options.snapToGrid}
+        checked={options.snapToGrid}
       >
         Snap To Grid
       </Checkbox>
