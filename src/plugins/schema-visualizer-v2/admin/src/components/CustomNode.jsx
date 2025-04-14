@@ -143,7 +143,7 @@ const CustomNode = React.memo(({ data }) => {
           <Typography key={attr[0]}>
             <div className="cte-plugin-field">
               <p className="cte-plugin-line nodrag">{attr[0]}</p>
-              <div>
+              <div style={{ display: "flex", alignItems: "center" }}>
                 {data.options.showTypes && (
                   <Badge
                     size="M"
