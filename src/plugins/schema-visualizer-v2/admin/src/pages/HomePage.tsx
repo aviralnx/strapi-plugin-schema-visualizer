@@ -3,7 +3,7 @@ import "./styles.css";
 import React, { useEffect, useMemo, useRef, useCallback } from "react";
 import { useFetchClient } from '@strapi/strapi/admin';
 import { Layouts } from "@strapi/admin/strapi-admin";
-import { Button } from "@strapi/design-system";
+import { Button, Modal } from "@strapi/design-system";
 import { Search, Drag, Download, ArrowClockwise } from "@strapi/icons";
 import { useTheme } from "styled-components";
 import {
@@ -43,8 +43,6 @@ const HomePage = React.memo(() => {
     toggleOption,
     options,
     setData,
-    showModal,
-    setShowModal,
   } = useDigramStore();
 
   // Memoized node types definition
@@ -89,11 +87,6 @@ const HomePage = React.memo(() => {
   const handleScrollToggle = useCallback(() => {
     toggleOption("scrollMode");
   }, [toggleOption]);
-
-  // Memoize the export button click handler
-  const handleExportClick = useCallback(() => {
-    setShowModal(true);
-  }, [setShowModal]);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -142,12 +135,16 @@ const HomePage = React.memo(() => {
       <Layouts.Header
         title="Schema Visualizer"
         primaryAction={
-          <Button
+          <Modal.Root>
+            <Modal.Trigger>
+            <Button
             startIcon={<Download />}
-            onClick={handleExportClick}
           >
             Export Diagram
           </Button>
+            </Modal.Trigger>
+            <ExportModal imageRef={ref as React.RefObject<HTMLDivElement>} />
+          </Modal.Root>
         }
         secondaryAction={
           <Button
@@ -209,7 +206,6 @@ const HomePage = React.memo(() => {
             color={backgroundStyle}
           />
         </ReactFlow>
-        {showModal && <ExportModal imageRef={ref as React.RefObject<HTMLDivElement>} />}
       </div>
     </div>
   );

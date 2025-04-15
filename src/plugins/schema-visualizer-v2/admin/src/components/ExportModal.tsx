@@ -93,51 +93,45 @@ export function ExportModal({ imageRef }: ExportModalProps): React.ReactElement 
   }, [imageRef, quality, format, theme]);
 
   return (
-    <Modal.Root>
-      <Modal.Content>
-        <Modal.Header>
-          <Modal.Title>
-            Export Diagram
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Field.Label>Format</Field.Label>
-          <Field.Input>
-            <SingleSelect
-              onClear={() => {
-                setFormat("");
-              }}
-              value={format}
-              onChange={(value) => setFormat(value as string)}
-            >
-              <SingleSelectOption value="svg">SVG</SingleSelectOption>
-              <SingleSelectOption value="png">PNG</SingleSelectOption>
-              <SingleSelectOption value="jpeg">JPEG</SingleSelectOption>
-            </SingleSelect>
-          </Field.Input>
-          <span style={{ height: "16px", display: "block" }} />
-          {format == "jpeg" && (
-            <div>
-              <Field.Label>Quality</Field.Label>
-              <Typography variant="pi" textColor="neutral600">0.0 - 1.0</Typography>
-              <Field.Input>
-                <NumberInput
-                  name="quality"
-                  onValueChange={(value) => {
-                    if (value !== undefined) {
-                      setQuality(value);
-                    }
-                  }}
-                  value={quality}
-                />
-              </Field.Input>
-            </div>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={exportDiagram}>Export</Button>
-        </Modal.Footer>
-      </Modal.Content>
-    </Modal.Root>
+    <Modal.Content>
+      <Modal.Header>
+        <Modal.Title>
+          Export Diagram
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Field.Label>Format</Field.Label>
+          <SingleSelect
+            onClear={() => {
+              setFormat("");
+            }}
+            value={format}
+            onChange={(value) => setFormat(value as string)}
+          >
+            <SingleSelectOption value="svg">SVG</SingleSelectOption>
+            <SingleSelectOption value="png">PNG</SingleSelectOption>
+            <SingleSelectOption value="jpeg">JPEG</SingleSelectOption>
+          </SingleSelect>
+        <span style={{ height: "16px", display: "block" }} />
+        {format == "jpeg" && (
+          <div>
+            <Field.Label>Quality</Field.Label>
+            <Typography variant="pi" textColor="neutral600">0.0 - 1.0</Typography>
+              <NumberInput
+                name="quality"
+                onValueChange={(value) => {
+                  if (value !== undefined) {
+                    setQuality(value);
+                  }
+                }}
+                value={quality}
+              />
+          </div>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={exportDiagram}>Export</Button>
+      </Modal.Footer>
+    </Modal.Content>
   );
 }
