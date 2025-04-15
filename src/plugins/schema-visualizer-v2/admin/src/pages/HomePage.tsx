@@ -108,9 +108,13 @@ const HomePage = React.memo(() => {
     preventScrolling: !options.scrollMode,
     snapGrid: [20, 20] as [number, number],
     snapToGrid: options.snapToGrid,
+    elevateEdgesOnSelect: true,
     fitViewOptions: {
       maxZoom: 1,
     },
+    // Disable user-created connections
+    connectOnClick: false,
+    nodesConnectable: false,
   }), [
     nodes,
     edges,

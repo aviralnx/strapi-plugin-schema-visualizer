@@ -34,7 +34,7 @@
     "@strapi/design-system": "^2.0.0-rc.21",
     "@strapi/icons": "^2.0.0-rc.21",
     "@tisoap/react-flow-smart-edge": "^3.0.0",
-    "html-to-image": "^1.11.13",
+    "html-to-image": "^1.11.11",
     "react-intl": "^7.1.10",
     "reactflow": "^11.11.4",
     "zustand": "^5.0.3"
