@@ -28,6 +28,7 @@ interface DiagramState {
     showPluginTypes: boolean;
     scrollMode: boolean;
     backgroundPattern: string;
+    layoutDirection: string;
   };
   setData: (contentTypesData: ContentType[]) => void;
   setShowModal: (bool: boolean) => void;
@@ -38,6 +39,7 @@ interface DiagramState {
   drawDiagram: () => void;
   redrawNodes: () => void;
   redrawEdges: () => void;
+  applyLayout: () => void;
 }
 
 type DiagramPersist = (
@@ -64,6 +66,7 @@ export const useDigramStore = create<DiagramState>()(
         scrollMode: true,
         edgeType: "smartstep",
         backgroundPattern: "dots",
+        layoutDirection: "TB", // Default to vertical layout
       },
       setData: (contentTypesData) => {
         set({
@@ -118,6 +121,8 @@ export const useDigramStore = create<DiagramState>()(
           nodes: newNodes as ReactFlowNode<any>[],
           edges: newEdges as ReactFlowEdge<any>[],
         });
+        // Apply layout after drawing the diagram
+        setTimeout(() => get().applyLayout(), 10);
       },
       redrawNodes: () => {
         let newNodes = updateNodes(get().nodes as unknown as Node[], get().options);
@@ -130,6 +135,11 @@ export const useDigramStore = create<DiagramState>()(
         set({
           edges: newEdges as ReactFlowEdge<any>[],
         });
+      },
+      applyLayout: () => {
+        // External function to handle layout will call this
+        // Implementation will be in the component that uses it
+        // This is just a placeholder to expose the functionality
       },
     }),
     {
