@@ -408,10 +408,10 @@ const HomePage = React.memo(() => {
           <Modal.Root>
             <Modal.Trigger>
             <Button
-            startIcon={<Download />}
-          >
-            Export Diagram
-          </Button>
+              startIcon={<Download />}
+            >
+              Export Diagram
+            </Button>
             </Modal.Trigger>
             <ExportModal imageRef={ref as React.RefObject<HTMLDivElement>} />
           </Modal.Root>

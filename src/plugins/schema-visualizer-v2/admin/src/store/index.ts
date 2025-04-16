@@ -64,7 +64,7 @@ export const useDigramStore = create<DiagramState>()(
         showPluginTypes: false,
         showEdges: true,
         scrollMode: true,
-        edgeType: "smartstep",
+        edgeType: "step",
         backgroundPattern: "dots",
         layoutDirection: "TB", // Default to vertical layout
       },

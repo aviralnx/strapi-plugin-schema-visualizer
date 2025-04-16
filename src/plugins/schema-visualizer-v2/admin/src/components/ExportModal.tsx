@@ -7,6 +7,7 @@ import {
   SingleSelectOption,
   NumberInput,
   Field,
+  Loader,
 } from "@strapi/design-system";
 import { toJpeg, toPng, toSvg } from "html-to-image";
 import { useDigramStore } from "../store";
@@ -23,15 +24,17 @@ export function ExportModal({ imageRef }: ExportModalProps): React.ReactElement 
 
   const [format, setFormat] = useState<string>("png");
   const [quality, setQuality] = useState<number>(0.95);
+  const [isExporting, setIsExporting] = useState<boolean>(false);
 
   function downloadImage(dataUrl: string, fileExtension: string): void {
     const link = document.createElement("a");
-    link.download = `strapi-diagram-${new Date()
+    link.download = `strapi-schema-diagram-${new Date()
       .toISOString()
       .replace(/[-:T.]/g, "")
       .slice(0, -5)}.${fileExtension}`;
     link.href = dataUrl;
     link.click();
+    setIsExporting(false);
   }
 
   const exportDiagram = useCallback(() => {
@@ -39,57 +42,66 @@ export function ExportModal({ imageRef }: ExportModalProps): React.ReactElement 
       return;
     }
 
-    const filter = (node: HTMLElement): boolean => {
-      const exclusionClasses = ["cte-plugin-controls"];
-      return !exclusionClasses.some((classname) =>
-        node.classList?.contains(classname)
-      );
-    };
+    // Set loading state immediately when button is clicked
+    setIsExporting(true);
 
-    if (format == "png") {
-      toPng(imageRef.current, {
-        cacheBust: true,
-        filter: filter,
-        style: {
-          background: theme.colors?.neutral100,
-        },
-      })
-        .then((dataUrl) => {
-          downloadImage(dataUrl, "png");
+    // Small timeout to ensure the UI updates with the loader before heavy processing begins
+    setTimeout(() => {
+      const filter = (node: HTMLElement): boolean => {
+        const exclusionClasses = ["cte-plugin-controls"];
+        return !exclusionClasses.some((classname) =>
+          node.classList?.contains(classname)
+        );
+      };
+
+      if (format == "png") {
+        toPng(imageRef.current, {
+          cacheBust: true,
+          filter: filter,
+          style: {
+            background: theme.colors?.neutral100,
+          },
         })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else if (format == "svg") {
-      toSvg(imageRef.current, {
-        cacheBust: true,
-        filter: filter,
-        style: {
-          background: theme.colors?.neutral100,
-        },
-      })
-        .then((dataUrl) => {
-          downloadImage(dataUrl, "svg");
+          .then((dataUrl) => {
+            downloadImage(dataUrl, "png");
+          })
+          .catch((err) => {
+            console.log(err);
+            setIsExporting(false);
+          });
+      } else if (format == "svg") {
+        toSvg(imageRef.current, {
+          cacheBust: true,
+          filter: filter,
+          style: {
+            background: theme.colors?.neutral100,
+          },
         })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else if (format == "jpeg") {
-      toJpeg(imageRef.current, {
-        cacheBust: true,
-        filter: filter,
-        quality: quality,
-        style: {
-          background: theme.colors?.neutral100,
-        },
-      })
-        .then((dataUrl) => {
-          downloadImage(dataUrl, "jpeg");
+          .then((dataUrl) => {
+            downloadImage(dataUrl, "svg");
+          })
+          .catch((err) => {
+            console.log(err);
+            setIsExporting(false);
+          });
+      } else if (format == "jpeg") {
+        toJpeg(imageRef.current, {
+          cacheBust: true,
+          filter: filter,
+          quality: quality,
+          style: {
+            background: theme.colors?.neutral100,
+          },
         })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+          .then((dataUrl) => {
+            downloadImage(dataUrl, "jpeg");
+          })
+          .catch((err) => {
+            console.log(err);
+            setIsExporting(false);
+          });
+      }
+    }, 0);
   }, [imageRef, quality, format, theme]);
 
   return (
@@ -130,7 +142,13 @@ export function ExportModal({ imageRef }: ExportModalProps): React.ReactElement 
         )}
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={exportDiagram}>Export</Button>
+        <Button
+          onClick={exportDiagram}
+          disabled={isExporting}
+          startIcon={isExporting ? <Loader small /> : undefined}
+        >
+          {isExporting ? "Exporting..." : "Export"}
+        </Button>
       </Modal.Footer>
     </Modal.Content>
   );
