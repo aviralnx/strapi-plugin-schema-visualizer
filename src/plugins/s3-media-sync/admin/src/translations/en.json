@@ -1,0 +1,17 @@
+{
+  "plugin.name": "S3 Media Sync",
+  "plugin.description": "Sync media files from your S3 bucket to the Strapi media library",
+  "sync.button": "Sync S3 Files",
+  "sync.success": "S3 files successfully synced to media library",
+  "sync.error": "Failed to sync S3 files",
+  "config.required": "S3 configuration is required",
+  "stats.title": "Sync Statistics",
+  "stats.lastSync": "Last Sync",
+  "stats.totalFiles": "Total Files",
+  "stats.filesSynced": "Files Synced",
+  "stats.filesSkipped": "Files Skipped",
+  "stats.filesErrored": "Files with Errors",
+  "stats.empty": "No sync statistics available yet",
+  "config.title": "S3 Configuration",
+  "config.description": "This plugin allows you to sync files from your AWS S3 bucket directly into your Strapi media library with a single click."
+}
