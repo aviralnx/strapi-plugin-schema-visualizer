@@ -1,61 +1,116 @@
-# 🚀 Getting started with Strapi
+# Schema Visualizer
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+A powerful Strapi plugin for visualizing your content types and their relationships in an interactive diagram. This plugin helps developers and content managers understand the structure of their content types and how they relate to each other.
 
-### `develop`
+## Credits and Acknowledgements
 
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
+This plugin was created by forking and enhancing the excellent [Content Type Visualizer](https://github.com/PaulBratslavsky/strapi-plugin-content-type-visualizer) by [Paul Bratslavsky](https://github.com/PaulBratslavsky). We're grateful for his foundational work that made this plugin possible. The original plugin has been migrated to newer Strapi versions and enhanced with additional features while maintaining the core visualization functionality.
 
-```
-npm run develop
-# or
-yarn develop
-```
+## Features
 
-### `start`
+- **Interactive Schema Visualization**: View all your content types and their relationships in an interactive diagram
+- **Customizable Display**: Toggle visibility of admin types, plugin types, default fields, and more
+- **Relationship Visualization**: See connections between content types with different edge styles
+- **Layout Options**: Choose between vertical and horizontal layouts
+- **Export Functionality**: Export diagrams as images for documentation or presentations
+- **Performance Optimized**: Designed to handle large schemas with smooth performance
 
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
+## Installation
 
-```
-npm run start
-# or
-yarn start
-```
+```bash
+# Using npm
+npm install schema-visualizer --save
 
-### `build`
-
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
-
-```
-npm run build
-# or
-yarn build
+# Using yarn
+yarn add schema-visualizer
 ```
 
-## ⚙️ Deployment
+## Configuration
 
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
+After installing the plugin, you need to enable it in your Strapi application:
 
+1. Go to `config/plugins.js` or create it if it doesn't exist:
+
+```javascript
+module.exports = {
+  // ...
+  'schema-visualizer': {
+    enabled: true,
+  },
+  // ...
+}
 ```
-yarn strapi deploy
-```
 
-## 📚 Learn more
+## Usage
 
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
+1. Log in to your Strapi admin panel
+2. Navigate to the Schema Visualizer from the main menu
+3. The visualization will load automatically, displaying all your content types and their relationships
 
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
+## Interface Overview
 
-## ✨ Community
+[PLACEHOLDER: Screenshot of the main interface]
 
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
+### Controls and Options
 
----
+The plugin provides several options to customize the visualization:
 
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+- **Layout Controls**: Switch between vertical and horizontal layouts
+- **Display Options**: 
+  - Show/hide admin types
+  - Show/hide plugin types
+  - Show/hide types on nodes
+  - Show/hide field icons
+  - Show relations only (hide non-relation fields)
+  - Show/hide default fields
+- **Visual Options**:
+  - Background pattern options
+  - Edge type selection (bezier, step, straight)
+  - Toggle edge visibility
+  - Toggle grid snapping
+
+### Interactive Features
+
+- **Drag Nodes**: Rearrange nodes by dragging them
+- **Zoom & Pan**: Navigate around the diagram using your mouse
+- **Toggle Mouse Mode**: Switch between zoom mode and scroll mode
+- **Export**: Export the current view as an image for documentation
+
+## Examples
+
+### Basic Schema Visualization
+
+[PLACEHOLDER: Screenshot of basic schema visualization]
+
+### Focused Relationship View
+
+[PLACEHOLDER: Screenshot showing relationships between content types]
+
+### Export Example
+
+[PLACEHOLDER: Screenshot of export modal/functionality]
+
+## Performance Tips
+
+For large schemas with many content types and relationships:
+
+1. Hide unnecessary information using the display options
+2. Toggle off edge animations for smoother performance
+3. Use the layout buttons to automatically organize your diagram
+4. Consider filtering to show only relations for a clearer view
+
+## Technical Details
+
+This plugin is built using:
+- ReactFlow for diagram rendering
+- Dagre for automatic layout
+- Strapi Design System for UI components
+- HTML-to-image for export functionality
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT
