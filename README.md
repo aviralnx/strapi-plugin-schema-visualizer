@@ -4,7 +4,7 @@ A powerful Strapi plugin for visualizing your content types and their relationsh
 
 ## Credits and Acknowledgements
 
-This plugin was created by forking and enhancing the excellent [Content Type Visualizer](https://github.com/PaulBratslavsky/strapi-plugin-content-type-visualizer) by [Paul Bratslavsky](https://github.com/PaulBratslavsky). We're grateful for his foundational work that made this plugin possible. The original plugin has been migrated to newer Strapi versions and enhanced with additional features while maintaining the core visualization functionality.
+This plugin was created by forking and enhancing the excellent [Content-Type Explorer](https://github.com/shahriarkh/strapi-content-type-explorer) by [ShahriarKh](ShahriarKh). We're grateful for his foundational work that made this plugin possible. The original plugin has been migrated to newer Strapi versions and enhanced with additional features while maintaining the core visualization functionality.
 
 ## Features
 
