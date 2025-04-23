@@ -1,40 +1,74 @@
 {
-  "name": "plugin-playground",
-  "version": "0.1.0",
-  "private": true,
-  "description": "A Strapi application",
+  "version": "0.0.0",
+  "keywords": [],
+  "type": "commonjs",
+  "exports": {
+    "./package.json": "./package.json",
+    "./strapi-admin": {
+      "types": "./dist/admin/src/index.d.ts",
+      "source": "./admin/src/index.ts",
+      "import": "./dist/admin/index.mjs",
+      "require": "./dist/admin/index.js",
+      "default": "./dist/admin/index.js"
+    },
+    "./strapi-server": {
+      "types": "./dist/server/src/index.d.ts",
+      "source": "./server/src/index.ts",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "NODE_OPTIONS='--max-old-space-size=4096' strapi build",
-    "console": "strapi console",
-    "deploy": "strapi deploy",
-    "dev": "strapi develop",
-    "develop": "strapi develop",
-    "start": "strapi start",
-    "strapi": "strapi",
-    "upgrade": "npx @strapi/upgrade latest",
-    "upgrade:dry": "npx @strapi/upgrade latest --dry"
+    "build": "strapi-plugin build",
+    "watch": "strapi-plugin watch",
+    "watch:link": "strapi-plugin watch:link",
+    "verify": "strapi-plugin verify",
+    "test:ts:front": "run -T tsc -p admin/tsconfig.json",
+    "test:ts:back": "run -T tsc -p server/tsconfig.json"
   },
   "dependencies": {
-    "@strapi/plugin-cloud": "5.12.4",
-    "@strapi/plugin-users-permissions": "5.12.4",
-    "@strapi/strapi": "5.12.4",
-    "better-sqlite3": "11.3.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^6.0.0",
-    "styled-components": "^6.0.0"
+    "@dagrejs/dagre": "^1.1.4",
+    "@strapi/design-system": "^2.0.0-rc.21",
+    "@strapi/icons": "^2.0.0-rc.21",
+    "@tisoap/react-flow-smart-edge": "^3.0.0",
+    "html-to-image": "^1.11.11",
+    "react-intl": "^7.1.10",
+    "reactflow": "^11.11.4",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "typescript": "^5"
+    "@strapi/sdk-plugin": "^5.3.2",
+    "@strapi/strapi": "^5.12.4",
+    "@strapi/typescript-utils": "^5.12.4",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.2",
+    "prettier": "^3.5.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.0",
+    "styled-components": "^6.1.17",
+    "typescript": "^5.8.3"
   },
-  "engines": {
-    "node": ">=18.0.0 <=22.x.x",
-    "npm": ">=6.0.0"
+  "peerDependencies": {
+    "@strapi/sdk-plugin": "^5.3.2",
+    "@strapi/strapi": "^5.12.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.0",
+    "styled-components": "^6.1.17"
   },
   "strapi": {
-    "uuid": "783fdcdf-ed5a-4f1d-b79c-7f4e191d5252"
-  }
+    "kind": "plugin",
+    "name": "schema-visualizer",
+    "displayName": "Schema Visualizer",
+    "description": "A Strapi plugin to visualize and interact with your application's schema, providing an intuitive graphical representation for better understanding and management."
+  },
+  "name": "schema-visualizer",
+  "description": "A Strapi plugin to visualize and interact with your application's schema, providing an intuitive graphical representation for better understanding and management.",
+  "license": "MIT",
+  "author": "aviralnx <aviral.swarnkar@successive.tech>"
 }
