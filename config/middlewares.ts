@@ -13,14 +13,16 @@ export default [
             "data:",
             "blob:",
             "market-assets.strapi.io",
-            "https://plugin-test-strapi.imgix.net", // Example: https://sdk-test.imgix.net
+            "https://plugin-test-strapi.imgix.net",
+            'https://res.cloudinary.com' // Example: https://sdk-test.imgix.net
           ],
           "media-src": [
             "'self'",
             "data:",
             "blob:",
             "market-assets.strapi.io",
-            "https://plugin-test-strapi.imgix.net", // Example: https://sdk-test.imgix.net
+            "https://plugin-test-strapi.imgix.net",
+            'https://res.cloudinary.com'// Example: https://sdk-test.imgix.net
           ],
           upgradeInsecureRequests: null,
         },

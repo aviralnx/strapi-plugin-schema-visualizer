@@ -1,0 +1,22 @@
+{
+  "plugin.name": "Cloudinary Media Sync",
+  "plugin.description": "Sync media files from Cloudinary to Strapi media library",
+  "plugin.configuration": "Configuration",
+  "plugin.sync.button": "Sync Media from Cloudinary",
+  "plugin.sync.loading": "Syncing...",
+  "plugin.resources.button": "View Cloudinary Resources",
+  "plugin.config.title": "Cloudinary Configuration",
+  "plugin.config.cloudName": "Cloud Name",
+  "plugin.config.resourceType": "Resource Type",
+  "plugin.config.folder": "Folder",
+  "plugin.config.maxResults": "Max Results",
+  "plugin.config.overwrite": "Overwrite Existing",
+  "plugin.config.syncInterval": "Auto Sync Interval",
+  "plugin.sync.results": "Sync Results",
+  "plugin.sync.processed": "Processed",
+  "plugin.sync.uploaded": "Uploaded",
+  "plugin.sync.skipped": "Skipped",
+  "plugin.sync.errors": "Errors",
+  "plugin.resources.title": "Cloudinary Resources Preview",
+  "plugin.resources.empty": "No Cloudinary resources found or you haven't loaded resources yet."
+}
