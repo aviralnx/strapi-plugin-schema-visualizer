@@ -125,14 +125,12 @@ const service = ({ strapi }: { strapi: Core.Strapi }) => ({
   async uploadToMediaLibrary(filePath: string, fileName: string, fileInfo: CloudinaryResource) {
     try {
       const fileStats = await fs.stat(filePath);
-      console.debug('🚀 ~ uploadToMediaLibrary ~ fileInfo:', fileInfo)
-      console.debug('🚀 ~ uploadToMediaLibrary ~ fileStats:', fileStats)
 
       // Use internal upload API
       const uploadResponse =  await strapi.plugin('upload').service('upload').upload({
         data: {
           fileInfo: {
-            name: fileInfo.asset_id,
+            name: fileInfo.public_id,
             alternativeText: fileInfo.public_id || '',
             caption: fileInfo.public_id || '',
             hash: fileInfo.asset_id,
@@ -140,7 +138,7 @@ const service = ({ strapi }: { strapi: Core.Strapi }) => ({
         },
         files: {
           filepath: filePath, // Using filePath as filepath parameter
-          originalFilename: fileInfo.asset_id,
+          originalFilename: fileInfo.public_id,
           mimetype: this.getMimeType(fileName),
           size: fileStats.size,
         },
@@ -203,7 +201,6 @@ const service = ({ strapi }: { strapi: Core.Strapi }) => ({
               const url = resource.secure_url ?? resource.url;
               const fileName = this.getFileNameFromUrl(url);
               const tempFilePath = path.join(TEMP_DIR, fileName);
-              console.debug('🚀 ~ syncCloudinaryMedia ~ tempFilePath:', tempFilePath)
 
               await this.downloadFile(url, tempFilePath);
 
