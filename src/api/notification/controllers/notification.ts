@@ -16,8 +16,53 @@ module.exports = {
       const entryData = await strapi.documents(uid).findOne({
         documentId: entity.documentId,
         populate: "*",
-      })
+      });
       const assigneeEmail = entryData?.strapi_assignee?.email;
+      if (stageToID === 7) {
+        try {
+          // Call the review API when stage ID is 7
+          const axios = require('axios');
+          
+          // Extract the content data from entryData dynamically
+          const content = {};
+          
+          // Copy all properties from entryData to content except internal or metadata fields
+          Object.keys(entryData).forEach(key => {
+            // Skip internal properties that typically start with underscore or are standard Strapi fields
+            if (!key.startsWith('_') && 
+                !['id', 'createdAt', 'updatedAt', 'publishedAt', 'strapi_assignee', 'locale', 'createdBy', 'updatedBy', 'localizations', 'strapi_stage'].includes(key)) {
+              content[key] = entryData[key];
+            }
+          });
+          console.debug('🚀 ~ send ~ content:', content)
+          
+          // Make the API call to the review service
+          console.debug('SENDING TO REVIEW API=======================================');
+          axios.post('http://localhost:3000/api/review/webhook', {
+            event: "review.stage.changed",
+            entry: {
+              id: entityId,
+              contentType: model,
+              assigneeEmail,
+              reviewWorkflow: {
+                stage: {
+                  id: stageToID,
+                }
+              },
+              content
+            }
+          }, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          console.debug('SENT TO REVIEW API=======================================');
+        } catch (error) {
+          console.error('Error calling review API:', error);
+          // Continue with the notification even if the review API call fails
+        }
+      }
+      
       await strapi.plugins["email"].services.email.send({
         to: assigneeEmail,
         from: "aviral.swarnkar@successive.tech",
