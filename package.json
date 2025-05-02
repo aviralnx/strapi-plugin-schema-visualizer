@@ -1,7 +1,14 @@
 {
-  "version": "0.0.0",
+  "version": "1.0.2",
   "keywords": [],
   "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/aviralnx/strapi-plugin-schema-visualizer/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/aviralnx/strapi-plugin-schema-visualizer.git"
+  },
   "exports": {
     "./package.json": "./package.json",
     "./strapi-admin": {
@@ -67,7 +74,7 @@
     "displayName": "Schema Visualizer",
     "description": "A Strapi plugin to visualize and interact with your application's schema, providing an intuitive graphical representation for better understanding and management."
   },
-  "name": "schema-visualizer",
+  "name": "strapi-plugin-schema-visualizer",
   "description": "A Strapi plugin to visualize and interact with your application's schema, providing an intuitive graphical representation for better understanding and management.",
   "license": "MIT",
   "author": "aviralnx <aviral.swarnkar@successive.tech>"
