@@ -80,15 +80,19 @@ The plugin provides several options to customize the visualization:
 
 ### Basic Schema Visualization
 
-[PLACEHOLDER: Screenshot of basic schema visualization]
+![image (25)](https://github.com/user-attachments/assets/5c8b2be2-79b8-443f-8ea7-8bdbaaacf07b)
+
+
 
 ### Focused Relationship View
 
-[PLACEHOLDER: Screenshot showing relationships between content types]
+![Screenshot from 2025-05-02 14-27-59](https://github.com/user-attachments/assets/6ffb308c-52a1-437f-b7e5-e21d1ff42d01)
+
 
 ### Export Example
 
-[PLACEHOLDER: Screenshot of export modal/functionality]
+![Screenshot from 2025-05-02 14-28-17](https://github.com/user-attachments/assets/10492472-d3a0-480c-b532-12f53b591fa0)
+
 
 ## Performance Tips
 
