@@ -57,7 +57,8 @@ module.exports = {
 
 ## Interface Overview
 
-[PLACEHOLDER: Screenshot of the main interface]
+![Screenshot from 2025-05-05 12-07-32](https://github.com/user-attachments/assets/c2663ff6-5f97-49bd-90c4-872fe475210a)
+
 
 ### Controls and Options
 
