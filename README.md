@@ -2,6 +2,14 @@
 
 A powerful Strapi plugin for visualizing your content types and their relationships in an interactive diagram. This plugin helps developers and content managers understand the structure of their content types and how they relate to each other.
 
+> **Note:** This plugin is compatible with Strapi v5.
+
+## Prerequisites
+
+- Strapi v5.0.0 or higher
+- Node.js 18.x or higher
+- npm 9.x or higher (or equivalent yarn/pnpm)
+
 ## Credits and Acknowledgements
 
 This plugin was created by forking and enhancing the excellent [Content-Type Explorer](https://github.com/shahriarkh/strapi-content-type-explorer) by [ShahriarKh](ShahriarKh). We're grateful for his foundational work that made this plugin possible. The original plugin has been migrated to newer Strapi versions and enhanced with additional features while maintaining the core visualization functionality.
@@ -45,7 +53,7 @@ module.exports = {
 
 1. Log in to your Strapi admin panel
 2. Navigate to the Schema Visualizer from the main menu
-3. The visualization will load automatically, displaying all your content types and their relationships
+3. The visualization will load automatically, displaying all your content types and their relationships. (click on regenerate button if it doesn't load autmoatically)
 
 ## Interface Overview
 
