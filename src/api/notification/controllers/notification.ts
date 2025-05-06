@@ -2,6 +2,7 @@ module.exports = {
   async send(ctx) {
     try {
       const { body } = ctx.request;
+      console.debug('🚀 ~ send ~ body:', body)
 
       if (body?.event !== 'review-workflows.updateEntryStage') return ctx.body = { message: "Not a workflow update event" };
 
@@ -12,7 +13,8 @@ module.exports = {
 
       const { model, uid, entity } = body;
       const entityId = entity.id;
-
+      const documentId = entity.documentId;
+      const deeplinkUrl = `http://localhost:1337/admin/content-manager/collection-types/${uid}/${documentId}`;
       const entryData = await strapi.documents(uid).findOne({
         documentId: entity.documentId,
         populate: "*",
@@ -49,7 +51,8 @@ module.exports = {
                   id: stageToID,
                 }
               },
-              content
+              content,
+              deeplinkUrl,
             }
           }, {
             headers: {
@@ -64,7 +67,7 @@ module.exports = {
       }
       
       await strapi.plugins["email"].services.email.send({
-        to: assigneeEmail,
+        to: assigneeEmail ?? 'aviral.swarnkar@successive.tech',
         from: "aviral.swarnkar@successive.tech",
         replyTo: "aviral.swarnkar@successive.tech",
         subject: `Workflow stage updated: ${body.model}:- ${stageFromName} => ${stageToName}`,
